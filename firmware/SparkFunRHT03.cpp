@@ -12,7 +12,7 @@
 	Distributed as-is; no warranty is given. 
 */
 
-#include "RHT03-HumidityTemp.h"
+#include "SparkFunRHT03.h"
 #include "application.h"
 
 RHT03::RHT03()
