@@ -2,6 +2,7 @@
 
 A firmware library for the SparkFun's [RHT03](https://www.sparkfun.com/products/10167) humidity and temperaure sensor.
 
+[![RHT03](https://cdn.sparkfun.com//assets/parts/4/4/7/2/10167-01.jpg)](https://www.sparkfun.com/products/10167)
 About
 -------------------
 
