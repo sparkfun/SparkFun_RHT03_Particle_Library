@@ -1,4 +1,4 @@
-/*	SparkFunRHT03.cpp
+/*	RHT03-Example-Serial.cpp
 	Jim Lindblom <jim@sparkfun.com>
 	August 31, 2015
 	https://github.com/sparkfun/SparkFun_RHT03_Particle_Library
