@@ -35,5 +35,5 @@ private:
     
     bool checksum(byte check, byte * data, unsigned int datalen);
     int errorExit(int code);
-    bool waitFor(int pinState, unsigned int timeout = 1000);
+    bool waitForRHT(int pinState, unsigned int timeout = 1000);
 };
