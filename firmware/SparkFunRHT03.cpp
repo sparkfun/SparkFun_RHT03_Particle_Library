@@ -59,9 +59,9 @@ int RHT03::update()
     pinMode(_dataPin, INPUT_PULLUP);
     delayMicroseconds(20);
     // Sensor should pull data pin low 80us, then pull back up
-    if (! waitFor(LOW, 1000) )
+    if (! waitForRHT(LOW, 1000) )
         return errorExit(0);
-    if (! waitFor(HIGH, 1000) )
+    if (! waitForRHT(HIGH, 1000) )
         return errorExit(0);
     
     // Sensor transmits 40 bytes (16 rh, 16 temp, 8 checksum)
@@ -71,14 +71,14 @@ int RHT03::update()
     // HIGH: 70us (>LOW duration)
     for (int i=0; i<40; i++)
     {
-        if (! waitFor(LOW, 1000) )
+        if (! waitForRHT(LOW, 1000) )
             return errorExit(-i);
         marks[i] = micros();
-        if (! waitFor(HIGH, 1000) )
+        if (! waitForRHT(HIGH, 1000) )
             return errorExit(-i);
         stops[i] = micros();
     }
-    if (! waitFor(LOW, 1000) )
+    if (! waitForRHT(LOW, 1000) )
         return errorExit(-41);
     marks[40] = micros();
     
@@ -125,7 +125,7 @@ int RHT03::errorExit(int code)
     return code;
 }
 
-bool RHT03::waitFor(int pinState, unsigned int timeout)
+bool RHT03::waitForRHT(int pinState, unsigned int timeout)
 {
     unsigned int counter = 0;
     while ((digitalRead(_dataPin) != pinState) && (counter++ < timeout))
