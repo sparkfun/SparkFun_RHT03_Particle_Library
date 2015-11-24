@@ -97,7 +97,15 @@ int RHT03::update()
     if (checksum(dataBytes[CHECKSUM], dataBytes, 4))
     {
         _humidity = ((uint16_t) dataBytes[HUMIDITY_H] << 8) | dataBytes[HUMIDITY_L];
+        if(_humidity & 0x8000) {
+            _humidity -= 0x7FFF;
+            _humidity *= -1;
+        }
         _temperature = ((uint16_t) dataBytes[TEMP_H] << 8) | dataBytes[TEMP_L];
+        if(_temperature & 0x8000) {
+            _temperature -= 0x7FFF;
+            _temperature *= -1;
+        }        
         return 1;
     }
     else
