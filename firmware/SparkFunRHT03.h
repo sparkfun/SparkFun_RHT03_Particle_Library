@@ -33,7 +33,7 @@ private:
     
 	enum class dataByteLocations : unsigned char { HUMIDITY_H, HUMIDITY_L, TEMP_H, TEMP_L, CHECKSUM };
     
-    bool checksum(byte check, byte * data, unsigned int datalen);
+	bool checksum(byte check, byte * data, const unsigned int datalen);
 	int errorExit(const int code);
 	bool waitForRHT(const int pinState, const unsigned int timeout = 1000);
 };
