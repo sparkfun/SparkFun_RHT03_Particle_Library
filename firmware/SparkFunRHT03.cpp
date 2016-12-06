@@ -27,7 +27,7 @@ void RHT03::begin(int dataPin)
 
 float RHT03::tempC()
 {
-    return (float) _temperature / 10.0;
+	return static_cast<float>(_temperature / 10.0);
 }
 
 float RHT03::tempF()
@@ -69,13 +69,13 @@ int RHT03::update()
     // HIGH pulse determines the value of the bit.
     // LOW: 26-28us (<LOW duration)
     // HIGH: 70us (>LOW duration)
-    for (int i=0; i<40; i++)
+	for (int i = 0; i < 40; ++i)
     {
         if (! waitForRHT(LOW, 1000) )
             return errorExit(-i);
         marks[i] = micros();
-        if (! waitForRHT(HIGH, 1000) )
-            return errorExit(-i);
+		if ( !waitForRHT(HIGH, 1000) )
+			return errorExit(-i);
         stops[i] = micros();
     }
     if (! waitForRHT(LOW, 1000) )
@@ -84,20 +84,20 @@ int RHT03::update()
     
     interrupts();
     
-    for (int i=0; i<40; i++)
+	for (unsigned int i = 0; i < 40; ++i)
     {
         lowTime = stops[i] - marks[i];
         highTime = marks[i + 1] - stops[i];
         if (highTime > lowTime)
         {
-            dataBytes[i/8] |= (1<<(7 - i%8));
+			dataBytes[i / 8] |= (1 << (7 - i % 8));
         }
     }
     
     if (checksum(dataBytes[CHECKSUM], dataBytes, 4))
     {
-        _humidity = ((uint16_t) dataBytes[HUMIDITY_H] << 8) | dataBytes[HUMIDITY_L];
-        _temperature = ((uint16_t) dataBytes[TEMP_H] << 8) | dataBytes[TEMP_L];
+		_humidity = (static_cast<uint16_t>(dataBytes[HUMIDITY_H] << 8) | dataBytes[HUMIDITY_L]);
+		_temperature = static_cast<uint16_t> ((dataBytes[TEMP_H] << 8) | dataBytes[TEMP_L]);
         return 1;
     }
     else
@@ -106,10 +106,10 @@ int RHT03::update()
     }
 }
 
-bool RHT03::checksum(byte check, byte * data, unsigned int datalen)
+bool RHT03::checksum(const byte check, const byte * data, const unsigned int datalen)
 {
     byte sum = 0;
-    for (int i=0; i<datalen; i++)
+	for (unsigned int i = 0; i < datalen; ++i)
     {
         sum = sum + data[i];
     }
@@ -119,13 +119,13 @@ bool RHT03::checksum(byte check, byte * data, unsigned int datalen)
     return false;
 }
 
-int RHT03::errorExit(int code)
+int RHT03::errorExit(const int code)
 {
     interrupts();
     return code;
 }
 
-bool RHT03::waitForRHT(int pinState, unsigned int timeout)
+bool RHT03::waitForRHT(const int pinState, const unsigned int timeout)
 {
     unsigned int counter = 0;
     while ((digitalRead(_dataPin) != pinState) && (counter++ < timeout))
